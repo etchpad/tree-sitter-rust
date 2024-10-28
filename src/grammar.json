@@ -1,5 +1,4 @@
 {
-  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "rust",
   "word": "identifier",
   "rules": {
@@ -8778,15 +8777,6 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "[bc]?\""
-          },
-          "named": false,
-          "value": "\""
-        },
-        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
@@ -9467,3 +9457,4 @@
     "_pattern"
   ]
 }
+

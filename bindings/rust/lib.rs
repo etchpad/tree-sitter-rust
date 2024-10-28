@@ -34,6 +34,11 @@ extern "C" {
 /// [LanguageFn]: https://docs.rs/tree-sitter-language/*/tree_sitter_language/struct.LanguageFn.html
 pub const LANGUAGE: LanguageFn = unsafe { LanguageFn::from_raw(tree_sitter_rust) };
 
+/// The source of the Java tree-sitter grammar description.
+pub const GRAMMAR: &str = include_str!("../../grammar.js");
+
+pub const GRAMMAR_JSON: &str = include_str!("../../src/grammar.json");
+
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types

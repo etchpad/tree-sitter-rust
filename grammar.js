@@ -1488,7 +1488,7 @@ module.exports = grammar({
     )),
 
     string_literal: $ => seq(
-      alias(/[bc]?"/, '"'),
+      // alias(/[bc]?"/, '"'),
       repeat(choice(
         $.escape_sequence,
         $.string_content,

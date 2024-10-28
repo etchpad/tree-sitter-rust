@@ -2503,11 +2503,6 @@
     }
   },
   {
-    "type": "inner_doc_comment_marker",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "label",
     "named": true,
     "fields": {},
@@ -3050,11 +3045,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "outer_doc_comment_marker",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "parameter",
@@ -3606,7 +3596,6 @@
   {
     "type": "source_file",
     "named": true,
-    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -5240,6 +5229,10 @@
     "named": false
   },
   {
+    "type": "inner_doc_comment_marker",
+    "named": true
+  },
+  {
     "type": "integer_literal",
     "named": true
   },
@@ -5289,6 +5282,10 @@
   },
   {
     "type": "mutable_specifier",
+    "named": true
+  },
+  {
+    "type": "outer_doc_comment_marker",
     "named": true
   },
   {
