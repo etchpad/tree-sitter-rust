@@ -1552,9 +1552,9 @@ module.exports = grammar({
 
     _line_doc_comment_marker: $ => choice(
       // An outer line doc comment applies to the element that it is outside of
-      field('outer', alias($._outer_line_doc_comment_marker, $.outer_doc_comment_marker)),
+      field('outer', $._outer_line_doc_comment_marker),
       // An inner line doc comment applies to the element it is inside of
-      field('inner', alias($._inner_line_doc_comment_marker, $.inner_doc_comment_marker)),
+      field('inner', $._inner_line_doc_comment_marker),
     ),
 
     _inner_line_doc_comment_marker: _ => token.immediate(prec(2, '!')),
@@ -1577,8 +1577,8 @@ module.exports = grammar({
     ),
 
     _block_doc_comment_marker: $ => choice(
-      field('outer', alias($._outer_block_doc_comment_marker, $.outer_doc_comment_marker)),
-      field('inner', alias($._inner_block_doc_comment_marker, $.inner_doc_comment_marker)),
+      field('outer', $._outer_block_doc_comment_marker),
+      field('inner', $._inner_block_doc_comment_marker),
     ),
 
     _path: $ => choice(
