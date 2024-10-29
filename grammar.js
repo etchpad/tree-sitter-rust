@@ -28,6 +28,7 @@ const PREC = {
   range: 1,
   assign: 0,
   closure: -1,
+  leading: -2,
 };
 
 const numericTypes = [
@@ -61,9 +62,10 @@ module.exports = grammar({
   name: 'rust',
 
   extras: $ => [
-    /\s/,
     $.line_comment,
     $.block_comment,
+    $.whitespace_inline,
+    $.whitespace_block,
   ],
 
   externals: $ => [
@@ -1610,6 +1612,35 @@ module.exports = grammar({
     crate: _ => 'crate',
 
     metavariable: _ => /\$[a-zA-Z_]\w*/,
+
+    whitespace_inline: $ => /[ \t]+/,
+
+    // Trailing whitespace needs to end with newlines or carriage returns so that a new line is started ready for the leading extras
+    whitespace_block: $ => /\s*?(\r\n|\r|\n)+/,
+
+    _leading_extras: $ => repeat(
+      choice(
+        $._leading_comments,
+        $.whitespace_inline, // Leading spaces on the same line. Could be the start of a line or could be midway
+      )
+    ),
+
+    // Comments that precede anything, regardless of the amount of whitespace afterwards, are attached to that element
+    _leading_comments: $ => seq(
+      $.comment,
+      $.whitespace_block,
+    ),
+
+    _trailing_extras: $ => prec(PREC.leading, choice(
+        $.whitespace_block,
+        // Trailing comments are only captured at the end of an element if they start on the same line, followed by any other block of whitespace
+        seq(
+          optional($.whitespace_inline),
+          $.comment,
+          optional($.whitespace_block),
+        )
+      )
+    ),
   },
 });
 

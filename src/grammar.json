@@ -9322,13 +9322,92 @@
     "metavariable": {
       "type": "PATTERN",
       "value": "\\$[a-zA-Z_]\\w*"
+    },
+    "whitespace_inline": {
+      "type": "PATTERN",
+      "value": "[ \\t]+"
+    },
+    "whitespace_block": {
+      "type": "PATTERN",
+      "value": "\\s*?(\\r\\n|\\r|\\n)+"
+    },
+    "_leading_extras": {
+      "type": "REPEAT",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_leading_comments"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "whitespace_inline"
+          }
+        ]
+      }
+    },
+    "_leading_comments": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "whitespace_block"
+        }
+      ]
+    },
+    "_trailing_extras": {
+      "type": "PREC",
+      "value": -2,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "whitespace_block"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "whitespace_inline"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "comment"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "whitespace_block"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "extras": [
-    {
-      "type": "PATTERN",
-      "value": "\\s"
-    },
     {
       "type": "SYMBOL",
       "name": "line_comment"
@@ -9336,6 +9415,14 @@
     {
       "type": "SYMBOL",
       "name": "block_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "whitespace_inline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "whitespace_block"
     }
   ],
   "conflicts": [
