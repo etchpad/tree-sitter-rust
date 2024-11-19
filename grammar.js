@@ -88,6 +88,7 @@ module.exports = grammar({
     $._literal_pattern,
     $._declaration_statement,
     $._pattern,
+    $.comment,
   ],
 
   inline: $ => [
@@ -1539,17 +1540,19 @@ module.exports = grammar({
     line_comment: $ => seq(
       // All line comments start with two //
       '//',
-      // Then are followed by:
-      // - 2 or more slashes making it a regular comment
-      // - 1 slash or 1 or more bang operators making it a doc comment
-      // - or just content for the comment
-      choice(
+      $.line_comment_body,  // Made body into a named node because we don't support patterns without a node
+    ),
+
+    line_comment_body: $ => choice(
+        // Then are followed by:
+        // - 2 or more slashes making it a regular comment
+        // - 1 slash or 1 or more bang operators making it a doc comment
+        // - or just content for the comment
         // A tricky edge case where what looks like a doc comment is not
         seq(token.immediate(prec(2, /\/\//)), /.*/),
         // A regular doc comment
         seq($._line_doc_comment_marker, field('doc', alias($._line_doc_content, $.doc_comment))),
         token.immediate(prec(1, /.*/)),
-      ),
     ),
 
     _line_doc_comment_marker: $ => choice(
@@ -1564,18 +1567,18 @@ module.exports = grammar({
 
     block_comment: $ => seq(
       '/*',
-      optional(
-        choice(
-          // Documentation block comments: /** docs */ or /*! docs */
-          seq(
+      optional($.block_comment_body),  // Made body into a named node because we don't support patterns without a node
+      '*/',
+    ),
+
+    block_comment_body: $ => choice(
+        // Documentation block comments: /** docs */ or /*! docs */
+        seq(
             $._block_doc_comment_marker,
             optional(field('doc', alias($._block_comment_content, $.doc_comment))),
-          ),
-          // Non-doc block comments
-          $._block_comment_content,
         ),
-      ),
-      '*/',
+        // Non-doc block comments
+        $._block_comment_content,
     ),
 
     _block_doc_comment_marker: $ => choice(
