@@ -8777,6 +8777,15 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[bc]?\""
+          },
+          "named": false,
+          "value": "\""
+        },
+        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
